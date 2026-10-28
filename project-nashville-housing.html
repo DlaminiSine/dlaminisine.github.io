@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nashville housing: data cleaning in Excel | Sinenhlanhla Dlamini</title>
+<meta name="description" content="Excel project cleaning 56,000 Nashville housing records into 16,710 analysis-ready rows, with pivot tables of prices by city and land use.">
+<meta property="og:title" content="Nashville housing: data cleaning in Excel">
+<meta property="og:description" content="Excel project cleaning 56,000 Nashville housing records into 16,710 analysis-ready rows, with pivot tables of prices by city and land use.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="band" aria-hidden="true"></div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="index.html">Sinenhlanhla Dlamini</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="projects.html" aria-current="page">Projects</a></li>
+        <li><a href="dashboards.html">Dashboards</a></li>
+        <li><a href="writing.html">Writing</a></li>
+        <li><a href="certificates.html">Certificates</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="about.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap wp">
+    <div class="crumb"><a href="projects.html">&larr; All projects</a></div>
+    <div class="page-head">
+      <h1>Nashville housing: data cleaning in Excel</h1>
+      <p class="wp-meta">Excel project &nbsp;|&nbsp; Data cleaning</p>
+    </div>
+
+    <h2 style="margin-top: 8px;">The question</h2>
+    <p class="question">How can a messy raw property-sales dataset be cleaned and restructured so it can be analyzed by city, land use, and sale type?</p>
+    <ol class="pipeline" aria-label="Project data flow">
+      <li>56,477 raw records</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li>Split addresses, clean columns</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li>16,710 clean records</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li>Calculated columns</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li class="out">Pivot tables</li>
+    </ol>
+
+    <h2>What I did</h2>
+    <ol class="steps">
+        <li><strong>Started from the raw dataset</strong> of 56,477 property sales with 19 columns.</li>
+        <li><strong>Cleaned and restructured it</strong> into a table of 16,710 records, splitting the combined address text into separate street, city, and state columns for both properties and owners.</li>
+        <li><strong>Added calculated columns</strong>: total value (land plus building value) and a profit figure (sale price minus total value) using table formulas.</li>
+        <li><strong>Built pivot tables</strong> comparing the number of sales and the average sale price, land value, building value, and total value by city, by land use, and by whether the property was sold as vacant.</li>
+    </ol>
+
+    <h2>Results</h2>
+    <ul class="keys">
+      <li>Most sales were in <strong>Nashville itself (12,869 of 16,710)</strong>, with an average sale price of $275,096.</li>
+      <li><strong>Brentwood</strong> had the highest average sale price ($446,546 across 134 sales), while Antioch (1,148 sales) averaged $131,052.</li>
+      <li><strong>Single-family homes</strong> made up 14,470 of the sales, at an average of $258,075.</li>
+      <li>The 292 properties sold as vacant averaged a $161,599 sale price.</li>
+    </ul>
+
+    <h2>Tools</h2>
+    <ul class="tools" aria-label="Tools used"><li>Excel (tables, formulas, pivot tables)</li></ul>
+
+    <h2>Skills shown</h2>
+    <ul class="tools" aria-label="Skills shown"><li>Data cleaning and restructuring</li><li>Excel table formulas</li><li>Pivot tables</li><li>Real-estate data analysis</li></ul>
+
+    <h2>Code preview</h2>
+    <p class="code-title">Calculated columns in the cleaned table</p>
+    <pre class="code"><code>=SUM(M2:N2)                                                    // total of land and building value
+
+=Housing[[#This Row],[SalePrice]]-Housing[[#This Row],[TotalValue]]   // sale price minus total value</code></pre>
+    <p style="color: var(--muted); font-size: 0.95rem;">Excerpts from the original file, reformatted for readability. <a href="https://github.com/DlaminiSine/Sinenhlanhla_Portfolio/blob/main/Nashville%20Housing%20Data%20for%20Data%20Cleaning%20Project.xlsx" target="_blank" rel="noopener">View the Excel workbook on GitHub</a>.</p>
+
+    <div class="wp-nav"><a href="projects.html">All projects</a><span></span></div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <ul class="foot-links">
+      <li><a href="mailto:dlamini.s@northeastern.edu">Email</a></li>
+      <li><a href="https://www.linkedin.com/in/sinenhlanhla-n-dlamini" target="_blank" rel="noopener">LinkedIn</a></li>
+      <li><a href="https://github.com/DlaminiSine" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="https://public.tableau.com/app/profile/sinenhlanhla.dlamini/vizzes" target="_blank" rel="noopener">Tableau Public</a></li>
+      <li><a href="resume.pdf">Resume (PDF)</a></li>
+    </ul>
+    Sinenhlanhla Dlamini, Boston, MA
+  </div>
+</footer>
+</body>
+</html>

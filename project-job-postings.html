@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exploring 25,000 job postings with Python | Sinenhlanhla Dlamini</title>
+<meta name="description" content="Python exploration of 25,114 data and tech job postings, measuring how much pay information is missing and which job titles are most common.">
+<meta property="og:title" content="Exploring 25,000 job postings with Python">
+<meta property="og:description" content="Python exploration of 25,114 data and tech job postings, measuring how much pay information is missing and which job titles are most common.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="band" aria-hidden="true"></div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="index.html">Sinenhlanhla Dlamini</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="projects.html" aria-current="page">Projects</a></li>
+        <li><a href="dashboards.html">Dashboards</a></li>
+        <li><a href="writing.html">Writing</a></li>
+        <li><a href="certificates.html">Certificates</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="about.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap wp">
+    <div class="crumb"><a href="projects.html">&larr; All projects</a></div>
+    <div class="page-head">
+      <h1>Exploring 25,000 job postings with Python</h1>
+      <p class="wp-meta">Practice project &nbsp;|&nbsp; Python notebook</p>
+    </div>
+    <p class="note">I built this notebook while revising the concepts I had learned on DataCamp.</p>
+
+    <h2 style="margin-top: 8px;">The question</h2>
+    <p class="question">What does a large job-postings dataset contain, how complete is it, and which roles post the most openings?</p>
+    <ol class="pipeline" aria-label="Project data flow">
+      <li>25,114 job postings</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li>Inspect structure and nulls</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li>Missing-pay analysis</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li class="out">Job title counts</li>
+    </ol>
+
+    <h2>What I did</h2>
+    <ol class="steps">
+        <li><strong>Loaded the dataset</strong> of 25,114 job postings and 16 columns into pandas, dropped the index columns, and inspected the structure.</li>
+        <li><strong>Measured missing data</strong>: counted nulls in every column and visualized them with the missingno library.</li>
+        <li><strong>Quantified the pay gap</strong>: calculated how many postings do not list a minimum or maximum pay, and charted it.</li>
+        <li><strong>Counted postings by job title</strong> and plotted the most common roles.</li>
+    </ol>
+
+    <h2>Results</h2>
+    <ul class="keys">
+      <li>About <strong>93% of postings (23,302 of 25,114) do not list a minimum or maximum pay</strong>, so salary analysis on this dataset would rest on only 1,812 postings.</li>
+      <li>The most common job titles were Software Engineer (8,112 postings), Data Engineer (3,462), Business Analyst (2,009), Data Scientist (1,999), Developer (1,502), and Data Analyst (1,485).</li>
+    </ul>
+    <figure class="fig"><img src="images/jobs-missing-data.jpg" alt="Bar chart showing how many values each column contains" loading="lazy"><figcaption>Number of non-missing values in each column. The pay columns stand out as almost empty.</figcaption></figure>
+
+    <h2>Tools</h2>
+    <ul class="tools" aria-label="Tools used"><li>Python</li><li>pandas</li><li>NumPy</li><li>Matplotlib</li><li>seaborn</li><li>missingno</li></ul>
+
+    <h2>Skills shown</h2>
+    <ul class="tools" aria-label="Skills shown"><li>Data inspection</li><li>Missing-data analysis</li><li>Aggregation with value counts</li><li>Data visualization</li></ul>
+
+    <h2>Code preview</h2>
+    <p class="code-title">Measuring missing pay data and counting job titles</p>
+    <pre class="code"><code>job_postings = pd.read_csv(&quot;job_postings.csv&quot;)
+job_postings = job_postings.drop([&#x27;Unnamed: 0&#x27;, &#x27;Job Posting ID&#x27;], axis=1)
+
+job_postings.isnull().sum()   # null values in each column
+
+count_nan_min = len(job_postings) - job_postings[&#x27;Minimum Pay&#x27;].count()
+percent_missing_min = count_nan_min / len(job_postings) * 100   # 92.78
+
+title_count = job_postings[&#x27;Job Title&#x27;].value_counts().head(5)</code></pre>
+    <p style="color: var(--muted); font-size: 0.95rem;">Excerpts from the original file, reformatted for readability. <a href="https://github.com/DlaminiSine/Sinenhlanhla_Portfolio/blob/main/Job%20Postings.ipynb" target="_blank" rel="noopener">View the full notebook on GitHub</a>.</p>
+
+    <div class="wp-nav"><a href="projects.html">All projects</a><span></span></div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <ul class="foot-links">
+      <li><a href="mailto:dlamini.s@northeastern.edu">Email</a></li>
+      <li><a href="https://www.linkedin.com/in/sinenhlanhla-n-dlamini" target="_blank" rel="noopener">LinkedIn</a></li>
+      <li><a href="https://github.com/DlaminiSine" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="https://public.tableau.com/app/profile/sinenhlanhla.dlamini/vizzes" target="_blank" rel="noopener">Tableau Public</a></li>
+      <li><a href="resume.pdf">Resume (PDF)</a></li>
+    </ul>
+    Sinenhlanhla Dlamini, Boston, MA
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data science salaries: Excel analysis and Power BI dashboard | Sinenhlanhla Dlamini</title>
+<meta name="description" content="Excel pivot-table analysis and an interactive Power BI dashboard of 607 data science salary records from 2020 to 2022.">
+<meta property="og:title" content="Data science salaries: Excel analysis and Power BI dashboard">
+<meta property="og:description" content="Excel pivot-table analysis and an interactive Power BI dashboard of 607 data science salary records from 2020 to 2022.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="band" aria-hidden="true"></div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="index.html">Sinenhlanhla Dlamini</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="projects.html" aria-current="page">Projects</a></li>
+        <li><a href="dashboards.html">Dashboards</a></li>
+        <li><a href="writing.html">Writing</a></li>
+        <li><a href="certificates.html">Certificates</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="about.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap wp">
+    <div class="crumb"><a href="projects.html">&larr; All projects</a></div>
+    <div class="page-head">
+      <h1>Data science salaries: Excel analysis and Power BI dashboard</h1>
+      <p class="wp-meta">Excel and Power BI project &nbsp;|&nbsp; 607 salary records, 2020 to 2022</p>
+    </div>
+    <p class="note">The Power BI dashboard file is in my GitHub repository. A screenshot of it appears on this page when the image file is added to the site.</p>
+
+    <h2 style="margin-top: 8px;">The question</h2>
+    <p class="question">How do data science salaries differ by experience, company size, year, and country?</p>
+    <ol class="pipeline" aria-label="Project data flow">
+      <li>607 salary records</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li>XLOOKUP and IF formulas</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li>Pivot tables</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li class="out">Power BI dashboard</li>
+    </ol>
+
+    <h2>What I did</h2>
+    <ol class="steps">
+        <li><strong>Prepared the data in Excel</strong>: converted the dataset to a table and used <code>XLOOKUP</code> against a country-code list to add full country names for employee residence and company location.</li>
+        <li><strong>Added a company-size label</strong> with a nested <code>IF</code> formula that turns Small, Medium, and Large into employee-count ranges.</li>
+        <li><strong>Built seven pivot tables</strong> of average salary in USD by experience level, job title, country, employment type, year, and company size by experience level.</li>
+        <li><strong>Rebuilt the analysis as a Power BI dashboard</strong> with salary charts by job location, experience, employment type, company size, and year, a salary gauge, and slicers for job title and company location.</li>
+    </ol>
+
+    <h2>Results</h2>
+    <ul class="keys">
+      <li>The average salary across all records was <strong>about $110,600</strong>.</li>
+      <li>Pay rose steeply with experience: <strong>$61,643</strong> for entry level, $87,793 for mid-level, $138,375 for senior level, and <strong>$199,392</strong> for executive level.</li>
+      <li>Average salary also rose over time: $95,813 in 2020, $99,430 in 2021, and $123,089 in 2022.</li>
+      <li>Among countries with salary data, the United States averaged $144,293.</li>
+      <li>At the executive level, companies with more than 250 employees paid about $221,900 on average, compared with about $201,300 at companies with 1 to 50 employees.</li>
+    </ul>
+    <figure class="fig"><img src="images/data-jobs-dashboard.png" alt="Power BI dashboard of data science salaries" loading="lazy" onerror="this.closest('figure').hidden=true"><figcaption>The Power BI dashboard.</figcaption></figure>
+
+    <h2>Tools</h2>
+    <ul class="tools" aria-label="Tools used"><li>Excel (XLOOKUP, pivot tables)</li><li>Power BI</li></ul>
+
+    <h2>Skills shown</h2>
+    <ul class="tools" aria-label="Skills shown"><li>Excel formulas</li><li>Pivot tables</li><li>Data preparation</li><li>Dashboard design in Power BI</li><li>Slicers and interactive filtering</li><li>Summarizing results for business readers</li></ul>
+
+    <h2>Code preview</h2>
+    <p class="code-title">Adding full country names and company-size labels in Excel</p>
+    <pre class="code"><code>=XLOOKUP(ds_salaries[[#This Row],[employee_residence]], data_csv!$B$3:$B$251, data_csv!$A$3:$A$251,, 0)
+
+=IF(N2=&quot;Large&quot;, &quot;More than 250&quot;, IF(N2=&quot;Medium&quot;, &quot;50 to 250&quot;, IF(N2=&quot;Small&quot;, &quot;1 to  50&quot;)))</code></pre>
+    <p style="color: var(--muted); font-size: 0.95rem;">Excerpts from the original file, reformatted for readability. <a href="https://github.com/DlaminiSine/Sinenhlanhla_Portfolio/blob/main/Data%20Science%20Job%20Salaries%20Project.xlsx" target="_blank" rel="noopener">View the Excel workbook on GitHub</a>.</p>
+
+    <p>I also built a Tableau dashboard for this project. <a href="dashboards.html">See it on the Dashboards page</a>.</p>
+
+    <div class="wp-nav"><a href="projects.html">All projects</a><span></span></div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <ul class="foot-links">
+      <li><a href="mailto:dlamini.s@northeastern.edu">Email</a></li>
+      <li><a href="https://www.linkedin.com/in/sinenhlanhla-n-dlamini" target="_blank" rel="noopener">LinkedIn</a></li>
+      <li><a href="https://github.com/DlaminiSine" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="https://public.tableau.com/app/profile/sinenhlanhla.dlamini/vizzes" target="_blank" rel="noopener">Tableau Public</a></li>
+      <li><a href="resume.pdf">Resume (PDF)</a></li>
+    </ul>
+    Sinenhlanhla Dlamini, Boston, MA
+  </div>
+</footer>
+</body>
+</html>

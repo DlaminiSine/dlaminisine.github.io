@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fantasy Premier League player performance | Sinenhlanhla Dlamini</title>
+<meta name="description" content="Personal SQL-to-Tableau project analyzing Fantasy Premier League player performance by position and team, with an interactive dashboard.">
+<meta property="og:title" content="Fantasy Premier League player performance">
+<meta property="og:description" content="Personal SQL-to-Tableau project analyzing Fantasy Premier League player performance by position and team, with an interactive dashboard.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="band" aria-hidden="true"></div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="index.html">Sinenhlanhla Dlamini</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="projects.html" aria-current="page">Projects</a></li>
+        <li><a href="dashboards.html">Dashboards</a></li>
+        <li><a href="writing.html">Writing</a></li>
+        <li><a href="certificates.html">Certificates</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="about.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap wp">
+    <div class="crumb"><a href="projects.html">&larr; All projects</a></div>
+    <div class="page-head">
+      <h1>Fantasy Premier League player performance</h1>
+      <p class="wp-meta">February 2026 &nbsp;|&nbsp; Personal project</p>
+    </div>
+    <p class="note">The data comes from the public vaastav Fantasy Premier League repository on GitHub.</p>
+
+    <h2 style="margin-top: 8px;">The question</h2>
+    <p class="question">Which Fantasy Premier League players perform best by position and team, and what should a manager look at besides total points?</p>
+    <ol class="pipeline" aria-label="Project data flow">
+      <li>vaastav FPL data</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li>SQLite database (2 tables)</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li>Cleaning and join key</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li>SQL joins, window functions, aggregates</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li class="out">Tableau dashboard</li>
+    </ol>
+
+    <h2>What I did</h2>
+    <ol class="steps">
+        <li><strong>Loaded two tables</strong> from the public vaastav Fantasy Premier League dataset into SQLite: <code>cleaned_players</code> (season-level player statistics) and <code>merged_gw</code> (gameweek-level data with position and team).</li>
+        <li><strong>Validated and cleaned the data</strong>: previewed both tables, counted records, found and removed a duplicate player entry, and checked key columns for nulls.</li>
+        <li><strong>Built a shared key</strong> by concatenating first and second names into a <code>name</code> column, so the two tables could be joined. I also found players that appeared in one table but not the other.</li>
+        <li><strong>Explored the data</strong> with aggregate queries: top scorers and assist providers, how many players share each points total, and the date range of the gameweek data.</li>
+        <li><strong>Compared players within their position</strong>: top five by points for goalkeepers, defenders, midfielders, and forwards, split by players who played every minute and those who did not, plus goals, assists, clean sheets, and goals conceded by position.</li>
+        <li><strong>Ranked players within each team</strong> with a window function to get the top three point scorers per club, and looked at the creativity, influence, and threat metrics.</li>
+        <li><strong>Turned the analysis into a Tableau dashboard</strong> of the 2022/23 season so a non-technical viewer can explore the results without reading any SQL.</li>
+    </ol>
+
+    <h2>Results</h2>
+    <p>The main takeaway is that total points alone is an incomplete way to judge a player. A fuller assessment also looks at minutes played, position, goals and assists, clean sheets, and the creativity, influence, and threat scores. Players with high creativity or threat can be strong picks even when they are not yet the top scorers, and comparing players within their position and team gives more context than ranking everyone together.</p>
+
+    <h2>The dashboard</h2>
+    <p>This is the Tableau dashboard of the 2022/23 season. You can filter and explore it directly on this page.</p>
+    <div class="embed">
+      <iframe src="https://public.tableau.com/views/FantasypremierLeague2223Dashboard/FantasyPremierLeague2223SeasonDashboard?:showVizHome=no&amp;:embed=true" title="Fantasy Premier League 2022/23 season dashboard"></iframe>
+    </div>
+    <p style="margin-top: 14px;"><a href="https://public.tableau.com/app/profile/sinenhlanhla.dlamini/viz/FantasypremierLeague2223Dashboard/FantasyPremierLeague2223SeasonDashboard" target="_blank" rel="noopener">Open the dashboard on Tableau Public</a> if it doesn&rsquo;t load here.</p>
+
+    <h2>Tools</h2>
+    <ul class="tools" aria-label="Tools used"><li>SQL</li><li>SQLite</li><li>DBeaver</li><li>Tableau Public</li></ul>
+
+    <h2>Skills shown</h2>
+    <ul class="tools" aria-label="Skills shown"><li>Joins across tables</li><li>Data validation and cleaning</li><li>Duplicate detection</li><li>Aggregate functions and GROUP BY</li><li>Subqueries</li><li>Window functions (ROW_NUMBER)</li><li>Exploratory analysis</li><li>Dashboard design</li></ul>
+
+    <h2>Code preview</h2>
+    <p class="code-title">Cleaning: find duplicates and build a join key</p>
+    <pre class="code"><code>-- Find players that appear more than once
+SELECT first_name, second_name, COUNT(*)
+FROM cleaned_players
+GROUP BY first_name, second_name
+HAVING COUNT(*) &gt; 1;
+
+-- Create a name column to match the gameweek table
+ALTER TABLE cleaned_players ADD name TEXT;
+
+UPDATE cleaned_players
+SET name = CONCAT(first_name, &#x27; &#x27;, second_name);</code></pre>
+    <p class="code-title">Top three players in each team by total points</p>
+    <pre class="code"><code>SELECT team, name, total_points
+FROM (
+    SELECT mg.team AS team,
+           cp.name AS name,
+           cp.total_points AS total_points,
+           ROW_NUMBER() OVER (PARTITION BY mg.team ORDER BY cp.total_points DESC) AS player_rank
+    FROM cleaned_players cp
+    JOIN merged_gw mg ON mg.name = cp.name
+    GROUP BY mg.team, cp.name, cp.total_points
+) AS ranked_players
+WHERE player_rank &lt;= 3;</code></pre>
+    <p style="color: var(--muted); font-size: 0.95rem;">Excerpts from the original file, reformatted for readability. <a href="https://github.com/DlaminiSine/Sinenhlanhla_Portfolio/tree/main/Fantasy%20Premier%20League%20" target="_blank" rel="noopener">View the project folder on GitHub</a>.</p>
+
+    <div class="wp-nav"><a href="project-hospital.html">Previous: Hospital data analytics</a><a href="project-time-series.html">Next: VAR forecasting</a></div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <ul class="foot-links">
+      <li><a href="mailto:dlamini.s@northeastern.edu">Email</a></li>
+      <li><a href="https://www.linkedin.com/in/sinenhlanhla-n-dlamini" target="_blank" rel="noopener">LinkedIn</a></li>
+      <li><a href="https://github.com/DlaminiSine" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="https://public.tableau.com/app/profile/sinenhlanhla.dlamini/vizzes" target="_blank" rel="noopener">Tableau Public</a></li>
+      <li><a href="resume.pdf">Resume (PDF)</a></li>
+    </ul>
+    Sinenhlanhla Dlamini, Boston, MA
+  </div>
+</footer>
+</body>
+</html>

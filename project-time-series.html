@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Forecasting financial markets with a VAR model | Sinenhlanhla Dlamini</title>
+<meta name="description" content="Time series econometrics project testing stationarity, estimating a VAR model, and measuring how S&P 500 shocks affect five large financial stocks.">
+<meta property="og:title" content="Forecasting financial markets with a VAR model">
+<meta property="og:description" content="Time series econometrics project testing stationarity, estimating a VAR model, and measuring how S&P 500 shocks affect five large financial stocks.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="band" aria-hidden="true"></div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="index.html">Sinenhlanhla Dlamini</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="projects.html" aria-current="page">Projects</a></li>
+        <li><a href="dashboards.html">Dashboards</a></li>
+        <li><a href="writing.html">Writing</a></li>
+        <li><a href="certificates.html">Certificates</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="about.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap wp">
+    <div class="crumb"><a href="projects.html">&larr; All projects</a></div>
+    <div class="page-head">
+      <h1>Forecasting financial markets with a VAR model</h1>
+      <p class="wp-meta">December 2024 &nbsp;|&nbsp; Final project &nbsp;|&nbsp; Time Series Econometrics</p>
+    </div>
+
+    <h2 style="margin-top: 8px;">The question</h2>
+    <p class="question">How do shocks to the S&amp;P 500 spill over to five large financial stocks, and how well can a vector autoregression (VAR) model forecast them together?</p>
+    <ol class="pipeline" aria-label="Project data flow">
+      <li>Daily prices, S&amp;P 500 + 5 stocks</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li>ADF tests: non-stationary</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li>Log and first differences</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li>VAR(2) model</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li class="out">Forecasts and impulse responses</li>
+    </ol>
+
+    <h2>What I did</h2>
+    <ol class="steps">
+        <li><strong>Collected five years of daily closing prices</strong> (December 2019 to December 2024) from Yahoo Finance for the S&amp;P 500 and five stocks: Blackstone, BlackRock, Berkshire Hathaway, JPMorgan, and Wells Fargo.</li>
+        <li><strong>Tested the raw prices for stationarity</strong> with the Augmented Dickey-Fuller (ADF) test. All six series were non-stationary.</li>
+        <li><strong>Transformed the series</strong> so they could be modeled: 100 times the log difference for the S&amp;P 500, Blackstone, BlackRock, and JPMorgan, and a simple first difference for Wells Fargo and Berkshire Hathaway.</li>
+        <li><strong>Confirmed stationarity</strong> of the transformed series with both the ADF and KPSS tests.</li>
+        <li><strong>Chose the lag length</strong> with information criteria (AIC picked 2 lags, BIC picked 1) and estimated a VAR with 2 lags.</li>
+        <li><strong>Forecast 365 days ahead</strong> for each series, and ran <strong>impulse response functions</strong> to measure how a shock to the S&amp;P 500 moves each stock over the next ten periods, with bootstrapped 95% confidence bands.</li>
+    </ol>
+
+    <h2>Results</h2>
+    <p>The raw price series were all non-stationary (ADF p-values between 0.32 and 0.89). After transformation, every series passed both the ADF test (p = 0.01) and the KPSS test (p-values of 0.09 or higher), so the VAR could be estimated on stationary data.</p>
+    <p>The impulse response functions show how a shock to the S&amp;P 500 moves each stock in the first period, with the 95% confidence interval in brackets:</p>
+    <ul class="keys">
+      <li><strong>Blackstone:</strong> 1.96 [1.71, 2.21]</li>
+      <li><strong>BlackRock:</strong> 1.56 [1.38, 1.69]</li>
+      <li><strong>JPMorgan:</strong> 1.40 [1.14, 1.57]</li>
+      <li><strong>Wells Fargo:</strong> 0.57 [0.50, 0.63]</li>
+      <li><strong>Berkshire Hathaway:</strong> 2.56 [2.26, 2.85]</li>
+    </ul>
+    <p>All five responses were positive and statistically significant, then faded to roughly zero within 6 to 10 periods. I read the smaller Wells Fargo response as consistent with its retail-banking focus, compared with the more market-sensitive investment and asset-management firms.</p>
+    <p style="color: var(--muted); font-size: 0.95rem;">Note on units: Wells Fargo and Berkshire Hathaway were modeled in first differences of price, while the other series were log returns, so their response sizes are not directly comparable with the rest.</p>
+    <figure class="fig"><img src="images/tse-prices.jpg" alt="Daily closing prices of the S&P 500 and five stocks" loading="lazy"><figcaption>Daily closing prices, December 2019 to December 2024. The trending shapes are why the raw series are non-stationary.</figcaption></figure>
+    <figure class="fig"><img src="images/tse-transformed.jpg" alt="Transformed series fluctuating around zero" loading="lazy"><figcaption>After transformation, each series fluctuates around zero and passes the stationarity tests.</figcaption></figure>
+    <figure class="fig"><img src="images/tse-forecast.jpg" alt="VAR forecasts for each series" loading="lazy"><figcaption>365-day-ahead forecasts from the VAR(2) model, with confidence bands.</figcaption></figure>
+    <div class="figs">
+    <figure class="fig"><img src="images/tse-irf-blackstone.jpg" alt="Impulse response of Blackstone to an S&P 500 shock" loading="lazy"><figcaption>Blackstone</figcaption></figure>
+    <figure class="fig"><img src="images/tse-irf-blackrock.jpg" alt="Impulse response of BlackRock to an S&P 500 shock" loading="lazy"><figcaption>BlackRock</figcaption></figure>
+    <figure class="fig"><img src="images/tse-irf-jpmorgan.jpg" alt="Impulse response of JPMorgan to an S&P 500 shock" loading="lazy"><figcaption>JPMorgan</figcaption></figure>
+    <figure class="fig"><img src="images/tse-irf-wellsfargo.jpg" alt="Impulse response of Wells Fargo to an S&P 500 shock" loading="lazy"><figcaption>Wells Fargo</figcaption></figure>
+    <figure class="fig"><img src="images/tse-irf-berkshire.jpg" alt="Impulse response of Berkshire Hathaway to an S&P 500 shock" loading="lazy"><figcaption>Berkshire Hathaway</figcaption></figure>
+    </div>
+
+    <h2>Tools</h2>
+    <ul class="tools" aria-label="Tools used"><li>R</li><li>quantmod</li><li>vars</li><li>tseries</li><li>stargazer</li><li>R Markdown</li></ul>
+
+    <h2>Skills shown</h2>
+    <ul class="tools" aria-label="Skills shown"><li>Time series econometrics</li><li>Stationarity testing (ADF, KPSS)</li><li>Data transformation</li><li>VAR modeling</li><li>Forecasting</li><li>Impulse response analysis</li><li>Interpreting statistical output</li></ul>
+
+    <h2>Code preview</h2>
+    <p class="code-title">Stationarity tests, VAR estimation, forecasts, and impulse responses</p>
+    <pre class="code"><code># Test each price series for stationarity
+adf_test &lt;- sapply(merged_data, function(v) adf.test(v, alternative = &quot;stationary&quot;)$p.value)
+
+# Log-differenced returns (shown for the first series; the others follow the same pattern)
+transformed_data &lt;- cbind(100*diff(log(sp500_data)), 100*diff(log(blackstone_data)), ...)
+
+# Choose the lag length and estimate the VAR
+lag_selection &lt;- VARselect(stationary_data, lag.max = 10, type = &quot;none&quot;)
+model_estimate &lt;- VAR(transformed_data, p = optimal_lag, type = &quot;none&quot;)
+
+# Forecast 365 days ahead
+forecast.series &lt;- predict(model_estimate, n.ahead = 365)
+
+# How does an S&amp;P 500 shock move Blackstone?
+irf_blackstone &lt;- irf(model_estimate, impulse = &quot;S.P.500&quot;, response = &quot;Blackstone&quot;)</code></pre>
+    <p style="color: var(--muted); font-size: 0.95rem;">Excerpts from the original file, reformatted for readability. <a href="https://github.com/DlaminiSine/Sinenhlanhla_Portfolio/blob/main/R%20Projects/TSE_Project_Sinenhlanhla_Dlamini.Rmd" target="_blank" rel="noopener">View the full R Markdown file on GitHub</a>.</p>
+
+    <div class="wp-nav"><a href="project-fpl.html">Previous: Fantasy Premier League</a><span></span></div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <ul class="foot-links">
+      <li><a href="mailto:dlamini.s@northeastern.edu">Email</a></li>
+      <li><a href="https://www.linkedin.com/in/sinenhlanhla-n-dlamini" target="_blank" rel="noopener">LinkedIn</a></li>
+      <li><a href="https://github.com/DlaminiSine" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="https://public.tableau.com/app/profile/sinenhlanhla.dlamini/vizzes" target="_blank" rel="noopener">Tableau Public</a></li>
+      <li><a href="resume.pdf">Resume (PDF)</a></li>
+    </ul>
+    Sinenhlanhla Dlamini, Boston, MA
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Regression and hypothesis testing in R | Sinenhlanhla Dlamini</title>
+<meta name="description" content="Two R projects from my economics coursework: a regression showing why pooling data can hide opposite effects, and a statistics project on earnings and height.">
+<meta property="og:title" content="Regression and hypothesis testing in R">
+<meta property="og:description" content="Two R projects from my economics coursework: a regression showing why pooling data can hide opposite effects, and a statistics project on earnings and height.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="band" aria-hidden="true"></div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="index.html">Sinenhlanhla Dlamini</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="projects.html" aria-current="page">Projects</a></li>
+        <li><a href="dashboards.html">Dashboards</a></li>
+        <li><a href="writing.html">Writing</a></li>
+        <li><a href="certificates.html">Certificates</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="about.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap wp">
+    <div class="crumb"><a href="projects.html">&larr; All projects</a></div>
+    <div class="page-head">
+      <h1>Regression and hypothesis testing in R</h1>
+      <p class="wp-meta">Coursework &nbsp;|&nbsp; Econometrics and statistics</p>
+    </div>
+
+    <h2 style="margin-top: 8px;">The question</h2>
+    <p class="question">How does hotel occupancy respond to temperature in different cities, and what do earnings data show about gender, height, and age?</p>
+    <ol class="pipeline" aria-label="Project data flow">
+      <li>Hotel occupancy by city and month</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li>Pooled regression</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li>Per-city and interaction models</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li class="out">Different effect in each city</li>
+    </ol>
+
+    <h2>What I did</h2>
+    <ol class="steps">
+        <li><strong>Hotel occupancy regression (Econometrics):</strong> fit a pooled regression of hotel occupancy on temperature, tested differences between three cities with regression and ANOVA, then added city indicators and temperature-by-city interactions.</li>
+        <li><strong>Built the design matrix by hand</strong> with dummy variables and interaction terms to confirm it matched the model R estimates.</li>
+        <li><strong>Constructed confidence intervals</strong> for the temperature effect in each city from the regression coefficients and covariance matrix.</li>
+        <li><strong>Earnings and height statistics project:</strong> calculated summary statistics, ran t-tests on the mean age and on the earnings gap between men and women, tested the correlation between height and earnings, and tested hypotheses about variances.</li>
+    </ol>
+
+    <h2>Results</h2>
+    <h3>Hotel occupancy and temperature</h3>
+    <ul class="keys">
+      <li>The pooled regression found <strong>almost no relationship</strong> between temperature and occupancy (a slope of about 0.08 points per degree, with an R&sup2; near zero).</li>
+      <li>Splitting by city showed why: in <strong>Davos</strong>, occupancy <em>fell</em> by about 2.7 points for each extra degree, in <strong>Polenca</strong> it <em>rose</em> by about 4.0 points, and in Basel the effect was small (about 1.3).</li>
+      <li>The model with city interactions explained about 54% of the variation in occupancy. The takeaway is that pooling cities with opposite seasonal patterns hides real effects.</li>
+    </ul>
+    <h3>Earnings and height</h3>
+    <ul class="keys">
+      <li>About <strong>55.8%</strong> of people in the dataset were female, and 534 people were mechanics.</li>
+      <li>I rejected a mean age of 40 at the 5% level; the 95% confidence interval for age was [40.77, 41.07].</li>
+      <li>Mean earnings were $48,459.75 for men and $45,621 for women, a difference that was statistically significant.</li>
+      <li>Height and earnings had a weak but statistically significant positive correlation of about 0.10 (95% confidence interval [0.090, 0.119]).</li>
+      <li>I could not reject that the variance of earnings equals 727,000,000 (p = 0.78), or that men and women have equal earnings variances (p = 0.68).</li>
+    </ul>
+
+    <h2>Tools</h2>
+    <ul class="tools" aria-label="Tools used"><li>R</li><li>dplyr</li><li>tidyverse</li><li>rstatix</li><li>ggpubr</li><li>R Markdown</li></ul>
+
+    <h2>Skills shown</h2>
+    <ul class="tools" aria-label="Skills shown"><li>Linear regression</li><li>Interaction terms and dummy variables</li><li>Confidence intervals</li><li>t-tests and ANOVA</li><li>Correlation and variance tests</li><li>Interpreting statistical results</li></ul>
+
+    <h2>Code preview</h2>
+    <p class="code-title">Pooled, per-city, and interaction models</p>
+    <pre class="code"><code># Pooled model: does temperature predict hotel occupancy?
+a &lt;- lm(hotel_Occupation ~ Temperature, data = hotel)
+
+# Separate model for one city
+Davos_m &lt;- lm(hotel_Occupation ~ Temperature, data = filter(hotel, City == &quot;Davos&quot;))
+
+# Allow the temperature effect to differ by city
+g &lt;- lm(hotel_Occupation ~ Temperature * City, data = hotel)
+summary(g)
+confint(g, level = 0.99)</code></pre>
+    <p style="color: var(--muted); font-size: 0.95rem;">Excerpts from the original file, reformatted for readability. <a href="https://github.com/DlaminiSine/Sinenhlanhla_Portfolio/tree/main/R%20Projects" target="_blank" rel="noopener">Browse the R projects on GitHub</a>.</p>
+
+    <div class="wp-nav"><a href="projects.html">All projects</a><span></span></div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <ul class="foot-links">
+      <li><a href="mailto:dlamini.s@northeastern.edu">Email</a></li>
+      <li><a href="https://www.linkedin.com/in/sinenhlanhla-n-dlamini" target="_blank" rel="noopener">LinkedIn</a></li>
+      <li><a href="https://github.com/DlaminiSine" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="https://public.tableau.com/app/profile/sinenhlanhla.dlamini/vizzes" target="_blank" rel="noopener">Tableau Public</a></li>
+      <li><a href="resume.pdf">Resume (PDF)</a></li>
+    </ul>
+    Sinenhlanhla Dlamini, Boston, MA
+  </div>
+</footer>
+</body>
+</html>

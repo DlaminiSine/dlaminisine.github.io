@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Uber pickups in New York City, September 2014 | Sinenhlanhla Dlamini</title>
+<meta name="description" content="Python analysis of more than one million Uber pickups showing the busiest days, weekdays, and hours.">
+<meta property="og:title" content="Uber pickups in New York City, September 2014">
+<meta property="og:description" content="Python analysis of more than one million Uber pickups showing the busiest days, weekdays, and hours.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="band" aria-hidden="true"></div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="index.html">Sinenhlanhla Dlamini</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="projects.html" aria-current="page">Projects</a></li>
+        <li><a href="dashboards.html">Dashboards</a></li>
+        <li><a href="writing.html">Writing</a></li>
+        <li><a href="certificates.html">Certificates</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="about.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap wp">
+    <div class="crumb"><a href="projects.html">&larr; All projects</a></div>
+    <div class="page-head">
+      <h1>Uber pickups in New York City, September 2014</h1>
+      <p class="wp-meta">Practice project &nbsp;|&nbsp; Python notebook</p>
+    </div>
+
+    <h2 style="margin-top: 8px;">The question</h2>
+    <p class="question">When do Uber pickups happen, by day of the month, weekday, and hour?</p>
+    <ol class="pipeline" aria-label="Project data flow">
+      <li>1,028,136 pickups</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li>Parse timestamps</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li>Day, hour, and weekday columns</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li class="out">Histograms and location plot</li>
+    </ol>
+
+    <h2>What I did</h2>
+    <ol class="steps">
+        <li><strong>Loaded the September 2014 pickup data</strong>: 1,028,136 rows with the date and time, latitude, longitude, and dispatch base of each pickup.</li>
+        <li><strong>Converted the timestamp</strong> from text to a datetime and created day, hour, and weekday columns from it.</li>
+        <li><strong>Plotted the number of pickups</strong> by day of the month, by weekday, and by hour of the day.</li>
+        <li><strong>Mapped the pickup locations</strong> as a scatter plot of longitude against latitude.</li>
+    </ol>
+
+    <h2>Results</h2>
+    <ul class="keys">
+      <li><strong>Hour of day:</strong> pickups are lowest around 2 to 3 a.m. (about 11,000), climb through the morning, and peak in the late afternoon and early evening, around 5 p.m. (about 75,000).</li>
+      <li><strong>Weekday:</strong> Tuesday was the busiest day (about 163,000 pickups) and Sunday the quietest (about 116,000).</li>
+    </ul>
+    <figure class="fig"><img src="images/uber-by-hour.jpg" alt="Histogram of Uber pickups by hour of the day" loading="lazy"><figcaption>Pickups by hour of the day.</figcaption></figure>
+    <figure class="fig"><img src="images/uber-by-weekday.jpg" alt="Histogram of Uber pickups by weekday" loading="lazy"><figcaption>Pickups by weekday, where 0 is Monday and 6 is Sunday.</figcaption></figure>
+    <figure class="fig"><img src="images/uber-by-day.jpg" alt="Histogram of Uber pickups by day of the month" loading="lazy"><figcaption>Pickups by day of the month.</figcaption></figure>
+
+    <h2>Tools</h2>
+    <ul class="tools" aria-label="Tools used"><li>Python</li><li>pandas</li><li>Matplotlib</li></ul>
+
+    <h2>Skills shown</h2>
+    <ul class="tools" aria-label="Skills shown"><li>Datetime feature engineering</li><li>Exploratory data analysis</li><li>Working with a million-row dataset</li><li>Data visualization</li></ul>
+
+    <h2>Code preview</h2>
+    <p class="code-title">Creating time features and plotting pickups by hour</p>
+    <pre class="code"><code>uber[&#x27;Date/Time&#x27;] = pd.to_datetime(uber[&#x27;Date/Time&#x27;])
+
+uber[&quot;Day&quot;] = uber[&quot;Date/Time&quot;].apply(lambda x: x.day)
+uber[&quot;Hour&quot;] = uber[&quot;Date/Time&quot;].apply(lambda x: x.hour)
+uber[&quot;Weekday&quot;] = uber[&quot;Date/Time&quot;].apply(lambda x: x.weekday())
+
+fig, ax = plt.subplots(figsize=(12, 6))
+plt.hist(uber.Hour, width=0.6, bins=24, color=&quot;orange&quot;)
+plt.title(&quot;Density of trips per Hour&quot;, fontsize=16)</code></pre>
+    <p style="color: var(--muted); font-size: 0.95rem;">Excerpts from the original file, reformatted for readability. <a href="https://github.com/DlaminiSine/Sinenhlanhla_Portfolio/blob/main/Uber%20Project.ipynb" target="_blank" rel="noopener">View the full notebook on GitHub</a>.</p>
+
+    <div class="wp-nav"><a href="projects.html">All projects</a><span></span></div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <ul class="foot-links">
+      <li><a href="mailto:dlamini.s@northeastern.edu">Email</a></li>
+      <li><a href="https://www.linkedin.com/in/sinenhlanhla-n-dlamini" target="_blank" rel="noopener">LinkedIn</a></li>
+      <li><a href="https://github.com/DlaminiSine" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="https://public.tableau.com/app/profile/sinenhlanhla.dlamini/vizzes" target="_blank" rel="noopener">Tableau Public</a></li>
+      <li><a href="resume.pdf">Resume (PDF)</a></li>
+    </ul>
+    Sinenhlanhla Dlamini, Boston, MA
+  </div>
+</footer>
+</body>
+</html>

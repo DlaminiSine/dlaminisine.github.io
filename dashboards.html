@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboards | Sinenhlanhla Dlamini</title>
+<meta name="description" content="Interactive Tableau dashboards by Sinenhlanhla Dlamini.">
+<meta property="og:title" content="Dashboards | Sinenhlanhla Dlamini">
+<meta property="og:description" content="Interactive Tableau dashboards by Sinenhlanhla Dlamini.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="band" aria-hidden="true"></div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="index.html">Sinenhlanhla Dlamini</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="dashboards.html" aria-current="page">Dashboards</a></li>
+        <li><a href="writing.html">Writing</a></li>
+        <li><a href="certificates.html">Certificates</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="about.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap">
+    <div class="page-head">
+      <h1>Dashboards</h1>
+      <p class="lede">Interactive dashboards I&rsquo;ve published on Tableau Public. You can filter and explore each one on this page.</p>
+    </div>
+    <div id="vizzes"></div>
+    <noscript><p><a href="https://public.tableau.com/app/profile/sinenhlanhla.dlamini/vizzes">See my dashboards on Tableau Public</a></p></noscript>
+    <p class="links" style="margin: 40px 0 56px;"><a href="https://public.tableau.com/app/profile/sinenhlanhla.dlamini/vizzes" target="_blank" rel="noopener">See all of my work on Tableau Public</a></p>
+  </div>
+<script src="dashboards.js"></script>
+<script>
+(function () {
+  var root = document.getElementById('vizzes');
+  var DEFAULT_W = 1000, DEFAULT_H = 820;
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text) e.textContent = text; return e; }
+  function link(href, label, external) { var a = el('a', null, label); a.href = href; if (external) { a.target = '_blank'; a.rel = 'noopener'; } return a; }
+  function embedUrl(url) {
+    var m = url.match(/\/viz\/([^\/?#]+)\/([^\/?#]+)/) || url.match(/\/views\/([^\/?#]+)\/([^\/?#]+)/);
+    return m ? 'https://public.tableau.com/views/' + m[1] + '/' + m[2] : null;
+  }
+
+  // Load Tableau's embedding library once, so each dashboard can report its true size
+  var apiReady = new Promise(function (resolve) {
+    var s = document.createElement('script');
+    s.type = 'module'; s.src = 'https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js';
+    s.onload = function () { resolve(true); }; s.onerror = function () { resolve(false); };
+    document.head.appendChild(s);
+  });
+
+  // Scale a fixed-size dashboard down so it fits the width of its container
+  function fit(frame, node, w, h) {
+    var scale = Math.min(1, frame.clientWidth / w);
+    node.style.width = w + 'px'; node.style.height = h + 'px';
+    node.style.transformOrigin = 'top left';
+    node.style.transform = scale < 1 ? 'scale(' + scale + ')' : '';
+    node.style.margin = scale < 1 ? '0' : '0 auto';
+    frame.style.height = Math.round(h * scale) + 'px';
+  }
+  // Dashboards set to adapt automatically just fill the width
+  function fill(frame, node, h) {
+    node.style.width = '100%'; node.style.height = h + 'px'; node.style.transform = ''; node.style.margin = '0';
+    frame.style.height = h + 'px';
+  }
+
+  function mountIframe(v, frame, src) {
+    var f = document.createElement('iframe');
+    f.src = src + '?:showVizHome=no&:embed=true'; f.title = v.title; f.setAttribute('scrolling', 'no');
+    frame.appendChild(f);
+    var w = v.width || DEFAULT_W, h = v.height || DEFAULT_H;
+    var apply = function () { fit(frame, f, w, h); };
+    apply(); if (window.ResizeObserver) new ResizeObserver(apply).observe(frame); else window.addEventListener('resize', apply);
+  }
+
+  function mount(v, frame, src) {
+    apiReady.then(function (ok) {
+      if (!ok || !window.customElements || !customElements.get('tableau-viz')) { mountIframe(v, frame, src); return; }
+      var viz = document.createElement('tableau-viz');
+      viz.setAttribute('src', src); viz.setAttribute('toolbar', 'hidden'); viz.setAttribute('hide-tabs', '');
+      frame.appendChild(viz);
+      var size = (v.width && v.height) ? { w: v.width, h: v.height } : null, auto = false;
+      var apply = function () {
+        if (auto) fill(frame, viz, 800);
+        else if (size) fit(frame, viz, size.w, size.h);
+      };
+      viz.addEventListener('firstinteractive', function () {
+        if (size) return;
+        try {
+          var sz = viz.workbook.activeSheet.size, box = sz.maxSize || sz.minSize;
+          if (sz.behavior === 'automatic' || !box || !box.width) auto = true;
+          else size = { w: box.width, h: box.height };
+        } catch (e) { size = { w: DEFAULT_W, h: DEFAULT_H }; }
+        apply();
+      });
+      frame.style.minHeight = '420px';
+      if (window.ResizeObserver) new ResizeObserver(apply).observe(frame); else window.addEventListener('resize', apply);
+      apply();
+    });
+  }
+
+  (window.DASHBOARDS_DATA ? Promise.resolve(window.DASHBOARDS_DATA) : fetch('dashboards.json').then(function (r) { return r.json(); })).then(function (data) {
+    var io = ('IntersectionObserver' in window) ? new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting && !en.target._mounted) { en.target._mounted = true; en.target._mount(); io.unobserve(en.target); }
+      });
+    }, { rootMargin: '600px 0px' }) : null;
+
+    data.vizzes.forEach(function (v) {
+      var sec = el('section', 'viz-card');
+      sec.appendChild(el('h2', null, v.title));
+      if (v.description) sec.appendChild(el('p', 'viz-desc', v.description));
+      if (v.tools && v.tools.length) {
+        var ul = el('ul', 'tools'); v.tools.forEach(function (t) { ul.appendChild(el('li', null, t)); }); sec.appendChild(ul);
+      }
+      var src = embedUrl(v.url);
+      if (src) {
+        var frame = el('div', 'viz-frame');
+        frame._mount = function () { mount(v, frame, src); };
+        sec.appendChild(frame);
+        if (io) io.observe(frame); else frame._mount();
+      }
+      var row = el('p', 'links');
+      row.appendChild(link(v.url, 'Open on Tableau Public', true));
+      if (v.writeup) { row.appendChild(document.createTextNode('  |  ')); row.appendChild(link(v.writeup, 'Read the project write-up', false)); }
+      sec.appendChild(row);
+      root.appendChild(sec);
+    });
+  }).catch(function () { root.textContent = 'The dashboards could not be loaded.'; });
+})();
+</script>
+</main>
+
+<footer>
+  <div class="wrap">
+    <ul class="foot-links">
+      <li><a href="mailto:dlamini.s@northeastern.edu">Email</a></li>
+      <li><a href="https://www.linkedin.com/in/sinenhlanhla-n-dlamini" target="_blank" rel="noopener">LinkedIn</a></li>
+      <li><a href="https://github.com/DlaminiSine" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="https://public.tableau.com/app/profile/sinenhlanhla.dlamini/vizzes" target="_blank" rel="noopener">Tableau Public</a></li>
+      <li><a href="resume.pdf">Resume (PDF)</a></li>
+    </ul>
+    Sinenhlanhla Dlamini, Boston, MA
+  </div>
+</footer>
+</body>
+</html>

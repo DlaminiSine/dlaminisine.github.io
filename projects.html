@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data projects | Sinenhlanhla Dlamini</title>
+<meta name="description" content="SQL databases, dashboards, and predictive models by Sinenhlanhla Dlamini, shown from raw data to finished output.">
+<meta property="og:title" content="Data projects | Sinenhlanhla Dlamini">
+<meta property="og:description" content="SQL databases, dashboards, and predictive models by Sinenhlanhla Dlamini, shown from raw data to finished output.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="band" aria-hidden="true"></div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="index.html">Sinenhlanhla Dlamini</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="projects.html" aria-current="page">Projects</a></li>
+        <li><a href="dashboards.html">Dashboards</a></li>
+        <li><a href="writing.html">Writing</a></li>
+        <li><a href="certificates.html">Certificates</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="about.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap">
+    <div class="page-head">
+      <h1>Data projects</h1>
+      <p class="lede">The flow under each project shows how the data moves, with the final output highlighted. Projects are grouped by the kind of work they show.</p>
+      <ul class="jump" aria-label="Project groups"><li><a href="#sql">SQL and relational databases</a></li><li><a href="#dashboards">Dashboards and business intelligence</a></li><li><a href="#exploration">Data cleaning and exploration</a></li><li><a href="#modeling">Forecasting, modeling, and economics</a></li></ul>
+    </div>
+
+    <section class="group" id="sql" aria-labelledby="sql-h">
+      <h2 class="group-title" id="sql-h">SQL and relational databases</h2>
+      <p class="group-lede">Projects where I designed relational databases and used SQL to join, clean, and analyze data.</p>
+      <article class="project" id="mlb">
+        <div class="meta">
+          <strong>August 2026</strong>
+          Group practicum, team of 2<br>
+          Essentials for Data Science (DS5110), Northeastern University
+        </div>
+        <div>
+          <h3>Predicting MLB home-game attendance</h3>
+          <p>How accurately can attendance be predicted from team, opponent, schedule timing, weather, and promotions? I integrated three data sources for five MLB teams into a star-schema SQLite database, wrote SQL reports on what drives turnout, and compared two predictive models.</p>
+          <ol class="pipeline" aria-label="Project data flow">
+            <li>Game records (CSV)</li>
+            <li class="sep" aria-hidden="true">+</li>
+            <li>Weather (Open-Meteo API)</li>
+            <li class="sep" aria-hidden="true">+</li>
+            <li>Promotion notes (text)</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li>Star-schema SQLite database</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li>SQL reporting</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li>Linear regression vs. KNN, nested cross-validation</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li class="out">RMSE, MAE, R&sup2;</li>
+          </ol>
+          <ul class="tools" aria-label="Tools used">
+            <li>SQL</li><li>SQLite</li><li>R</li><li>R Markdown</li>
+          </ul>
+          <p class="links"><a href="project-mlb.html">Read the write-up</a></p>
+          <!-- Add a repo link when ready:
+          <p class="links"><a href="https://github.com/DlaminiSine/YOUR-REPO">View code on GitHub</a></p> -->
+        </div>
+      </article>
+      <article class="project" id="hospital">
+        <div class="meta">
+          <strong>July 2026</strong>
+          Group practicum, team of 2<br>
+          Essentials for Data Science (DS5110), Northeastern University
+        </div>
+        <div>
+          <h3>Hospital data analytics and relational database</h3>
+          <p>I built an end-to-end analytics solution that turns hospital XML data into a relational SQLite database. SQL validation rules and data-quality checks flag missing, unknown, and incorrectly categorized records, so the final analysis is accurate and transparent.</p>
+          <ol class="pipeline" aria-label="Project data flow">
+            <li>XML data</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li>Relational SQLite database</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li>SQL joins, aggregations, validation rules</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li>Data-quality checks</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li class="out">Report visualizations in R</li>
+          </ol>
+          <ul class="tools" aria-label="Tools used">
+            <li>SQL</li><li>SQLite</li><li>R</li>
+          </ul>
+          <p class="links"><a href="project-hospital.html">Read the write-up</a></p>
+        </div>
+      </article>
+      <article class="project" id="fpl">
+        <div class="meta">
+          <strong>February 2026</strong>
+          Personal project
+        </div>
+        <div>
+          <h3>Fantasy Premier League player performance</h3>
+          <p>I designed a multi-table relational database to analyze player performance across positions, using joins, window functions, and aggregate queries. After cleaning the data and resolving duplicates, I identified top performers by position, team, and playing time, then published the results as a Tableau dashboard of the 2022/23 season.</p>
+          <ol class="pipeline" aria-label="Project data flow">
+            <li>Player data</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li>Multi-table relational database</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li>Cleaning and duplicate resolution</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li>SQL joins, window functions, aggregates</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li class="out">Tableau dashboard</li>
+          </ol>
+          <ul class="tools" aria-label="Tools used">
+            <li>SQL</li><li>Tableau</li>
+          </ul>
+          <p class="links"><a href="project-fpl.html">Read the write-up and see the dashboard</a> &nbsp;|&nbsp; <a href="https://public.tableau.com/app/profile/sinenhlanhla.dlamini/viz/FantasypremierLeague2223Dashboard/FantasyPremierLeague2223SeasonDashboard" target="_blank" rel="noopener">Open on Tableau Public</a> &nbsp;|&nbsp; <a href="https://github.com/DlaminiSine/Sinenhlanhla_Portfolio/tree/main/Fantasy%20Premier%20League%20" target="_blank" rel="noopener">View the code on GitHub</a></p>
+        </div>
+      </article>
+      <article class="project" id="covid">
+        <div class="meta">
+          <strong>Guided project</strong><br>SQL
+        </div>
+        <div>
+          <h3>COVID-19 data exploration in SQL</h3>
+          <p>I explored COVID-19 cases, deaths, and vaccinations across countries and continents with SQL, using joins and a window function for a rolling vaccination count, and prepared queries for Tableau visualizations.</p>
+          <ol class="pipeline" aria-label="Project data flow">
+            <li>covid_deaths and covid_vaccinations</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li>Filtering, joins, window functions</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li class="out">Queries ready for Tableau</li>
+          </ol>
+          <ul class="tools" aria-label="Tools used"><li>SQL</li><li>Tableau (queries prepared for it)</li></ul>
+          <p class="links"><a href="project-covid.html">Read the write-up</a></p>
+        </div>
+      </article>
+      <article class="project" id="bike-share">
+        <div class="meta">
+          <strong>Case study</strong><br>SQL and Tableau
+        </div>
+        <div>
+          <h3>Cyclistic bike-share analysis in SQL</h3>
+          <p>I combined twelve months of bike-share trips into one table, cleaned them, and compared how annual members and casual riders use the bikes, then pulled the top casual-rider stations for a Tableau map.</p>
+          <ol class="pipeline" aria-label="Project data flow">
+            <li>12 monthly trip tables</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li>UNION ALL and cleaning</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li>Views and member vs. casual comparisons</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li class="out">Top casual-rider stations for a map</li>
+          </ol>
+          <ul class="tools" aria-label="Tools used"><li>SQL (PostgreSQL syntax)</li><li>Tableau</li></ul>
+          <p class="links"><a href="project-bike-share.html">Read the write-up</a></p>
+        </div>
+      </article>
+    </section>
+
+    <section class="group" id="dashboards" aria-labelledby="dashboards-h">
+      <h2 class="group-title" id="dashboards-h">Dashboards and business intelligence</h2>
+      <p class="group-lede">Dashboards built in Power BI and Excel to turn tables of numbers into something a business reader can explore. My Tableau dashboard is in the Fantasy Premier League project above.</p>
+      <article class="project" id="salaries">
+        <div class="meta">
+          <strong>Excel and Power BI project</strong><br>607 salary records, 2020 to 2022
+        </div>
+        <div>
+          <h3>Data science salaries: Excel analysis and Power BI dashboard</h3>
+          <p>I analyzed data science salaries with XLOOKUP and seven pivot tables in Excel, then rebuilt the analysis as an interactive Power BI dashboard. Average pay rises from $61,643 at entry level to $199,392 at executive level.</p>
+          <ol class="pipeline" aria-label="Project data flow">
+            <li>607 salary records</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li>XLOOKUP and IF formulas</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li>Pivot tables</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li class="out">Power BI dashboard</li>
+          </ol>
+          <ul class="tools" aria-label="Tools used"><li>Excel (XLOOKUP, pivot tables)</li><li>Power BI</li></ul>
+          <p class="links"><a href="project-data-science-salaries.html">Read the write-up</a></p>
+        </div>
+      </article>
+      <article class="project" id="coca-cola">
+        <div class="meta">
+          <strong>Power BI project</strong>
+        </div>
+        <div>
+          <h3>Coca-Cola sales dashboard in Power BI</h3>
+          <p>I built an interactive Power BI dashboard of beverage sales with a map of sales by state, a brand table, a key influencers analysis of operating profit, and a date slicer.</p>
+          <ol class="pipeline" aria-label="Project data flow">
+            <li>Sales data</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li>Map, brand table, key influencers</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li class="out">Interactive Power BI dashboard</li>
+          </ol>
+          <ul class="tools" aria-label="Tools used"><li>Power BI</li></ul>
+          <p class="links"><a href="project-coca-cola-dashboard.html">Read the write-up</a></p>
+        </div>
+      </article>
+      <article class="project" id="bike-buyers">
+        <div class="meta">
+          <strong>Excel project</strong><br>1,000 customers
+        </div>
+        <div>
+          <h3>Bike buyers: an Excel dashboard</h3>
+          <p>I analyzed 1,000 customers with pivot tables and slicers to see who buys bikes by gender, commute distance, and age. About 48% bought a bike, and customers with the shortest commutes bought most often.</p>
+          <ol class="pipeline" aria-label="Project data flow">
+            <li>1,000 customers</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li>Age-bracket formula</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li>Pivot tables and slicers</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li class="out">Excel dashboard</li>
+          </ol>
+          <ul class="tools" aria-label="Tools used"><li>Excel (pivot tables, charts, slicers)</li></ul>
+          <p class="links"><a href="project-bike-sales-excel.html">Read the write-up</a></p>
+        </div>
+      </article>
+    </section>
+
+    <section class="group" id="exploration" aria-labelledby="exploration-h">
+      <h2 class="group-title" id="exploration-h">Data cleaning and exploration</h2>
+      <p class="group-lede">Projects focused on cleaning, combining, and exploring raw data to find patterns.</p>
+      <article class="project" id="nashville">
+        <div class="meta">
+          <strong>Excel project</strong><br>Data cleaning
+        </div>
+        <div>
+          <h3>Nashville housing: data cleaning in Excel</h3>
+          <p>I cleaned a 56,477-row Nashville property-sales dataset down to 16,710 records, split the address fields, added calculated columns, and used pivot tables to compare sale prices by city and land use.</p>
+          <ol class="pipeline" aria-label="Project data flow">
+            <li>56,477 raw records</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li>Split addresses, clean columns</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li>16,710 clean records</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li class="out">Pivot tables</li>
+          </ol>
+          <ul class="tools" aria-label="Tools used"><li>Excel (tables, formulas, pivot tables)</li></ul>
+          <p class="links"><a href="project-nashville-housing.html">Read the write-up</a></p>
+        </div>
+      </article>
+      <article class="project" id="content-data">
+        <div class="meta">
+          <strong>Python notebook</strong><br>Data cleaning and modeling
+        </div>
+        <div>
+          <h3>Building a clean data model from five content datasets</h3>
+          <p>I merged five related datasets on content, users, sessions, and reactions into one table, removed incomplete rows, and standardized the content categories.</p>
+          <ol class="pipeline" aria-label="Project data flow">
+            <li>5 CSV files</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li>Left joins</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li>Drop empty columns and rows</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li>Standardize categories</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li class="out">Clean data model</li>
+          </ol>
+          <ul class="tools" aria-label="Tools used"><li>Python</li><li>pandas</li><li>Excel</li></ul>
+          <p class="links"><a href="project-content-data-model.html">Read the write-up</a></p>
+        </div>
+      </article>
+      <article class="project" id="job-postings">
+        <div class="meta">
+          <strong>Practice project</strong><br>Python notebook
+        </div>
+        <div>
+          <h3>Exploring 25,000 job postings with Python</h3>
+          <p>I explored 25,114 job postings with pandas and found that about 93% list no pay range. Software Engineer was the most common job title, with 8,112 postings.</p>
+          <ol class="pipeline" aria-label="Project data flow">
+            <li>25,114 job postings</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li>Inspect structure and nulls</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li>Missing-pay analysis</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li class="out">Job title counts</li>
+          </ol>
+          <ul class="tools" aria-label="Tools used"><li>Python</li><li>pandas</li><li>Matplotlib</li><li>seaborn</li><li>missingno</li></ul>
+          <p class="links"><a href="project-job-postings.html">Read the write-up</a></p>
+        </div>
+      </article>
+      <article class="project" id="uber">
+        <div class="meta">
+          <strong>Practice project</strong><br>Python notebook
+        </div>
+        <div>
+          <h3>Uber pickups in New York City, September 2014</h3>
+          <p>I analyzed more than one million Uber pickups by day, weekday, and hour. Pickups are lowest in the early morning, peak around 5 p.m., and Tuesday was the busiest day.</p>
+          <ol class="pipeline" aria-label="Project data flow">
+            <li>1,028,136 pickups</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li>Parse timestamps</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li>Day, hour, and weekday columns</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li class="out">Pickup patterns</li>
+          </ol>
+          <ul class="tools" aria-label="Tools used"><li>Python</li><li>pandas</li><li>Matplotlib</li></ul>
+          <p class="links"><a href="project-uber.html">Read the write-up</a></p>
+        </div>
+      </article>
+      <article class="project" id="fred">
+        <div class="meta">
+          <strong>Python notebook</strong><br>Federal Reserve data (FRED)
+        </div>
+        <div>
+          <h3>US economic data analysis with the FRED API</h3>
+          <p>I pulled US unemployment and labor force participation data for every state from the FRED API, combined the series into one dataframe, and compared how the two moved over time.</p>
+          <ol class="pipeline" aria-label="Project data flow">
+            <li>FRED API</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li>State series (loop)</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li>One combined dataframe</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li class="out">State comparison charts</li>
+          </ol>
+          <ul class="tools" aria-label="Tools used"><li>Python</li><li>fredapi</li><li>pandas</li><li>Matplotlib</li><li>Plotly Express</li></ul>
+          <p class="links"><a href="project-us-economic-data.html">Read the write-up</a></p>
+        </div>
+      </article>
+    </section>
+
+    <section class="group" id="modeling" aria-labelledby="modeling-h">
+      <h2 class="group-title" id="modeling-h">Forecasting, modeling, and economics</h2>
+      <p class="group-lede">Statistical and economic models applied to financial and economic data.</p>
+      <article class="project" id="time-series">
+        <div class="meta">
+          <strong>December 2024</strong>
+          Final project<br>
+          Time Series Econometrics
+        </div>
+        <div>
+          <h3>Forecasting financial markets with a VAR model</h3>
+          <p>I built an R pipeline to test stationarity and transform the S&amp;P 500 and five individual stocks, then estimated a vector autoregression (VAR) across six financial series to generate multi-step forecasts and evaluate how well they predict.</p>
+          <ol class="pipeline" aria-label="Project data flow">
+            <li>S&amp;P 500 and 5 stocks</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li>Stationarity tests and transformations</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li>VAR model, 6 series</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li class="out">Multi-step forecasts</li>
+          </ol>
+          <ul class="tools" aria-label="Tools used">
+            <li>R</li><li>Time series econometrics</li>
+          </ul>
+          <p class="links"><a href="project-time-series.html">Read the write-up</a></p>
+        </div>
+      </article>
+      <article class="project" id="solow">
+        <div class="meta">
+          <strong>Macroeconomic theory project</strong><br>Python notebook
+        </div>
+        <div>
+          <h3>The Solow growth model: simulating a savings-rate shock</h3>
+          <p>I simulated the Solow growth model in Python to show how a fall in the savings rate gives a short-run consumption boost but lowers long-run capital, output, and consumption per worker.</p>
+          <ol class="pipeline" aria-label="Project data flow">
+            <li>Model and parameters</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li>Savings rate falls from 50% to 10%</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li>30-period simulation</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li class="out">Time paths and interpretation</li>
+          </ol>
+          <ul class="tools" aria-label="Tools used"><li>Python</li><li>NumPy</li><li>pandas</li><li>Matplotlib</li></ul>
+          <p class="links"><a href="project-solow.html">Read the write-up</a></p>
+        </div>
+      </article>
+      <article class="project" id="r-coursework">
+        <div class="meta">
+          <strong>Coursework</strong><br>Econometrics and statistics
+        </div>
+        <div>
+          <h3>Regression and hypothesis testing in R</h3>
+          <p>Two R projects from my economics coursework: a regression showing that pooling cities hid opposite effects of temperature on hotel occupancy, and a statistics project on earnings and height.</p>
+          <ol class="pipeline" aria-label="Project data flow">
+            <li>Hotel occupancy by city</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li>Pooled and per-city regressions</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li>Interaction model</li>
+            <li class="sep" aria-hidden="true">&rarr;</li>
+            <li class="out">Opposite effects by city</li>
+          </ol>
+          <ul class="tools" aria-label="Tools used"><li>R</li><li>dplyr</li><li>rstatix</li><li>R Markdown</li></ul>
+          <p class="links"><a href="project-r-coursework.html">Read the write-up</a></p>
+        </div>
+      </article>
+    </section>
+
+    <p class="links" style="margin: 40px 0 56px;"><a href="https://github.com/DlaminiSine/Sinenhlanhla_Portfolio" target="_blank" rel="noopener">Browse the full repository on GitHub</a></p>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <ul class="foot-links">
+      <li><a href="mailto:dlamini.s@northeastern.edu">Email</a></li>
+      <li><a href="https://www.linkedin.com/in/sinenhlanhla-n-dlamini" target="_blank" rel="noopener">LinkedIn</a></li>
+      <li><a href="https://github.com/DlaminiSine" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="https://public.tableau.com/app/profile/sinenhlanhla.dlamini/vizzes" target="_blank" rel="noopener">Tableau Public</a></li>
+      <li><a href="resume.pdf">Resume (PDF)</a></li>
+    </ul>
+    Sinenhlanhla Dlamini, Boston, MA
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Building a clean data model from five content datasets | Sinenhlanhla Dlamini</title>
+<meta name="description" content="Python project merging five related datasets on content, users, sessions, and reactions into one cleaned table.">
+<meta property="og:title" content="Building a clean data model from five content datasets">
+<meta property="og:description" content="Python project merging five related datasets on content, users, sessions, and reactions into one cleaned table.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="band" aria-hidden="true"></div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="index.html">Sinenhlanhla Dlamini</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="projects.html" aria-current="page">Projects</a></li>
+        <li><a href="dashboards.html">Dashboards</a></li>
+        <li><a href="writing.html">Writing</a></li>
+        <li><a href="certificates.html">Certificates</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="about.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap wp">
+    <div class="crumb"><a href="projects.html">&larr; All projects</a></div>
+    <div class="page-head">
+      <h1>Building a clean data model from five content datasets</h1>
+      <p class="wp-meta">Python notebook &nbsp;|&nbsp; Data cleaning and modeling</p>
+    </div>
+
+    <h2 style="margin-top: 8px;">The question</h2>
+    <p class="question">How can five separate tables about content, users, sessions, and reactions be combined into one clean dataset ready for analysis?</p>
+    <ol class="pipeline" aria-label="Project data flow">
+      <li>5 CSV files</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li>Left joins: 25,573 rows</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li>Drop empty columns and rows: 24,573 rows</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li>Standardize 16 categories</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li class="out">Excel data model</li>
+    </ol>
+
+    <h2>What I did</h2>
+    <ol class="steps">
+        <li><strong>Loaded five CSV files</strong>: reactions, reaction types, content, user profiles, and sessions.</li>
+        <li><strong>Merged them into one table</strong> with a chain of left joins on the shared keys, giving 25,573 rows and 14 columns.</li>
+        <li><strong>Checked for missing values</strong>, dropped the columns that were mostly empty (URL, interests, and a duplicate user ID), and removed the remaining incomplete rows, leaving 24,573 rows.</li>
+        <li><strong>Standardized the content categories</strong>, which had inconsistent capitalization and stray quotation marks (for example, "studying" and "Studying"), down to 16 clean categories.</li>
+        <li><strong>Exported the final data model</strong> to Excel for analysis.</li>
+    </ol>
+
+    <h2>Tools</h2>
+    <ul class="tools" aria-label="Tools used"><li>Python</li><li>pandas</li><li>Excel</li></ul>
+
+    <h2>Skills shown</h2>
+    <ul class="tools" aria-label="Skills shown"><li>Merging and joining tables</li><li>Data cleaning</li><li>Handling missing values</li><li>Standardizing categorical data</li><li>Data modeling</li></ul>
+
+    <h2>Code preview</h2>
+    <p class="code-title">Merging five tables and standardizing categories</p>
+    <pre class="code"><code>df = content.merge(profile, how=&#x27;left&#x27;, on=&#x27;User ID&#x27;)
+df = df.merge(session, how=&#x27;left&#x27;, on=&#x27;User ID&#x27;)
+df = df.merge(reactions, how=&#x27;left&#x27;, on=&#x27;Content ID&#x27;)
+df = df.rename(columns={&#x27;Type_x&#x27;: &#x27;Cont_Type&#x27;, &#x27;Type_y&#x27;: &#x27;Type&#x27;})
+df = df.merge(reactiontypes, how=&#x27;left&#x27;, on=&#x27;Type&#x27;)
+
+# Clean the repeated category labels
+df[&#x27;Category&#x27;] = df[&#x27;Category&#x27;].replace(&#x27;&quot;&#x27;, &#x27;&#x27;, regex=True)
+df[&#x27;Category&#x27;] = df[&#x27;Category&#x27;].str.lower()</code></pre>
+    <p style="color: var(--muted); font-size: 0.95rem;">Excerpts from the original file, reformatted for readability. <a href="https://github.com/DlaminiSine/Sinenhlanhla_Portfolio/blob/main/Python%20Projects%20/Accenture%20Data%20Analytics%20Model%20dataset.ipynb" target="_blank" rel="noopener">View the full notebook on GitHub</a>.</p>
+
+    <div class="wp-nav"><a href="projects.html">All projects</a><span></span></div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <ul class="foot-links">
+      <li><a href="mailto:dlamini.s@northeastern.edu">Email</a></li>
+      <li><a href="https://www.linkedin.com/in/sinenhlanhla-n-dlamini" target="_blank" rel="noopener">LinkedIn</a></li>
+      <li><a href="https://github.com/DlaminiSine" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="https://public.tableau.com/app/profile/sinenhlanhla.dlamini/vizzes" target="_blank" rel="noopener">Tableau Public</a></li>
+      <li><a href="resume.pdf">Resume (PDF)</a></li>
+    </ul>
+    Sinenhlanhla Dlamini, Boston, MA
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>COVID-19 data exploration in SQL | Sinenhlanhla Dlamini</title>
+<meta name="description" content="Write-up of a guided SQL project exploring COVID-19 cases, deaths, and vaccinations by country and continent.">
+<meta property="og:title" content="COVID-19 data exploration in SQL">
+<meta property="og:description" content="Write-up of a guided SQL project exploring COVID-19 cases, deaths, and vaccinations by country and continent.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="band" aria-hidden="true"></div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="index.html">Sinenhlanhla Dlamini</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="projects.html" aria-current="page">Projects</a></li>
+        <li><a href="dashboards.html">Dashboards</a></li>
+        <li><a href="writing.html">Writing</a></li>
+        <li><a href="certificates.html">Certificates</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="about.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap wp">
+    <div class="crumb"><a href="projects.html">&larr; All projects</a></div>
+    <div class="page-head">
+      <h1>COVID-19 data exploration in SQL</h1>
+      <p class="wp-meta">Guided project &nbsp;|&nbsp; SQL</p>
+    </div>
+    <p class="wp-meta" style="max-width: 42em; margin-top: 4px;">This is a guided project. I followed Alex the Analyst&rsquo;s data analyst portfolio series (part 1) and worked through the queries myself.</p>
+
+    <h2 style="margin-top: 8px;">The question</h2>
+    <p class="question">How did COVID-19 cases, deaths, and vaccinations compare across countries and continents, and how can the results be prepared for a dashboard?</p>
+    <ol class="pipeline" aria-label="Project data flow">
+      <li>covid_deaths and covid_vaccinations tables</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li>Filtering, joins, window functions</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li class="out">Views and queries ready for Tableau</li>
+    </ol>
+
+    <h2>What I did</h2>
+    <ol class="steps">
+        <li><strong>Explored two tables</strong>, <code>covid_deaths</code> and <code>covid_vaccinations</code>, and filtered out the rows that aggregate whole regions so each country is counted once.</li>
+        <li><strong>Calculated death percentage</strong> (total deaths as a share of total cases) and the share of each country&rsquo;s population that got infected, over time.</li>
+        <li><strong>Ranked countries</strong> by highest infection rate and by total death count, then broke the results down by continent and by date for global totals.</li>
+        <li><strong>Joined deaths and vaccinations</strong> and used a window function to compute a rolling count of people vaccinated in each country, then saved it as a table and a view for later use.</li>
+        <li><strong>Wrote four queries to prepare data for Tableau visualizations</strong>: global totals, deaths by continent, infection rate by country, and infection rate by country over time.</li>
+    </ol>
+
+    <h2>Tools</h2>
+    <ul class="tools" aria-label="Tools used"><li>SQL</li><li>Tableau (queries prepared for it)</li></ul>
+
+    <h2>Skills shown</h2>
+    <ul class="tools" aria-label="Skills shown"><li>Aggregate functions and GROUP BY</li><li>Joins</li><li>Window functions (rolling sums)</li><li>Type casting</li><li>Views and staging tables</li><li>Preparing data for BI tools</li></ul>
+
+    <h2>Code preview</h2>
+    <p class="code-title">Rolling count of people vaccinated, by country</p>
+    <pre class="code"><code>SELECT cd.continent, cd.location, cd.date, cd.population, cv.new_vaccinations,
+       SUM(cv.new_vaccinations) OVER (PARTITION BY cd.location ORDER BY cd.location, cd.date) AS rolling_people_vaccinated
+FROM covid_deaths cd
+JOIN covid_vaccinations cv
+  ON cd.location = cv.location
+ AND cd.date = cv.date
+WHERE cd.continent IS NOT NULL AND cd.continent != &#x27;&#x27;;</code></pre>
+    <p class="code-title">Which countries have the highest infection rates?</p>
+    <pre class="code"><code>SELECT location, population,
+       MAX(total_cases) AS highest_infection_count,
+       (MAX(total_cases)/population)*100 AS case_percentage
+FROM covid_deaths cd
+WHERE continent IS NOT NULL
+GROUP BY location, population
+ORDER BY case_percentage DESC;</code></pre>
+    <p style="color: var(--muted); font-size: 0.95rem;">Excerpts from the SQL file, reformatted for readability. <a href="https://github.com/DlaminiSine/Sinenhlanhla_Portfolio/blob/main/Covid-19%20Project.sql" target="_blank" rel="noopener">View the full file on GitHub</a>.</p>
+
+    <p>I also built a Tableau dashboard for this project. <a href="dashboards.html">See it on the Dashboards page</a>.</p>
+
+    <div class="wp-nav"><a href="projects.html">All projects</a><span></span></div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <ul class="foot-links">
+      <li><a href="mailto:dlamini.s@northeastern.edu">Email</a></li>
+      <li><a href="https://www.linkedin.com/in/sinenhlanhla-n-dlamini" target="_blank" rel="noopener">LinkedIn</a></li>
+      <li><a href="https://github.com/DlaminiSine" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="https://public.tableau.com/app/profile/sinenhlanhla.dlamini/vizzes" target="_blank" rel="noopener">Tableau Public</a></li>
+      <li><a href="resume.pdf">Resume (PDF)</a></li>
+    </ul>
+    Sinenhlanhla Dlamini, Boston, MA
+  </div>
+</footer>
+</body>
+</html>

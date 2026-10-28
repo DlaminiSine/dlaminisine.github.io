@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Predicting MLB home-game attendance | Sinenhlanhla Dlamini</title>
+<meta name="description" content="Write-up of a group practicum that integrates three data sources into a star-schema SQLite database and compares regression and KNN models to predict MLB attendance.">
+<meta property="og:title" content="Predicting MLB home-game attendance">
+<meta property="og:description" content="Write-up of a group practicum that integrates three data sources into a star-schema SQLite database and compares regression and KNN models to predict MLB attendance.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="band" aria-hidden="true"></div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="index.html">Sinenhlanhla Dlamini</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="projects.html" aria-current="page">Projects</a></li>
+        <li><a href="dashboards.html">Dashboards</a></li>
+        <li><a href="writing.html">Writing</a></li>
+        <li><a href="certificates.html">Certificates</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="about.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap wp">
+    <div class="crumb"><a href="projects.html">&larr; All projects</a></div>
+    <div class="page-head">
+      <h1>Predicting MLB home-game attendance</h1>
+      <p class="wp-meta">August 2026 &nbsp;|&nbsp; Group practicum, team of 2 &nbsp;|&nbsp; Essentials for Data Science (DS5110), Northeastern University</p>
+    </div>
+
+    <h2 style="margin-top: 8px;">The question</h2>
+    <p class="question">How accurately can MLB home-game attendance be predicted from team, opponent, schedule timing, weather, and promotional events?</p>
+    <ol class="pipeline" aria-label="Project data flow">
+      <li>Game records (CSV)</li>
+      <li class="sep" aria-hidden="true">+</li>
+      <li>Weather (Open-Meteo API)</li>
+      <li class="sep" aria-hidden="true">+</li>
+      <li>Promotion notes (text)</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li>Star-schema SQLite database</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li>SQL reporting</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li>Linear regression vs. KNN, nested cross-validation</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li class="out">RMSE, MAE, R&sup2;</li>
+    </ol>
+
+    <h2>What I did</h2>
+    <ol class="steps">
+        <li><strong>Integrated three data sources</strong> for five MLB teams: game records in CSV files, weather data from the Open-Meteo API, and promotional notes stored as unstructured text.</li>
+        <li><strong>Designed a star-schema SQLite database</strong> so the three sources could be joined consistently and queried with SQL.</li>
+        <li><strong>Wrote SQL reports</strong> on what drives turnout: which promotion types lift attendance, how promotions perform in adverse weather, which opponents draw, and how schedule characteristics such as weekend versus weekday, day versus night, and month affect attendance.</li>
+        <li><strong>Compared two predictive models</strong>, multiple linear regression and KNN regression, using nested cross-validation, and measured them with RMSE, MAE, and R&sup2;.</li>
+        <li><strong>Delivered a reproducible R Markdown report</strong> that runs the whole analysis from the database to the model comparison. I completed it with one teammate.</li>
+    </ol>
+
+    <h2>Tools</h2>
+    <ul class="tools" aria-label="Tools used"><li>SQL</li><li>SQLite</li><li>R</li><li>R Markdown</li></ul>
+
+    <div class="wp-nav"><span></span><a href="project-hospital.html">Next: Hospital data analytics</a></div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <ul class="foot-links">
+      <li><a href="mailto:dlamini.s@northeastern.edu">Email</a></li>
+      <li><a href="https://www.linkedin.com/in/sinenhlanhla-n-dlamini" target="_blank" rel="noopener">LinkedIn</a></li>
+      <li><a href="https://github.com/DlaminiSine" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="https://public.tableau.com/app/profile/sinenhlanhla.dlamini/vizzes" target="_blank" rel="noopener">Tableau Public</a></li>
+      <li><a href="resume.pdf">Resume (PDF)</a></li>
+    </ul>
+    Sinenhlanhla Dlamini, Boston, MA
+  </div>
+</footer>
+</body>
+</html>

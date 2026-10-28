@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>US economic data analysis with the FRED API | Sinenhlanhla Dlamini</title>
+<meta name="description" content="Python project pulling US unemployment and labor force participation data for every state from the FRED API and comparing them over time.">
+<meta property="og:title" content="US economic data analysis with the FRED API">
+<meta property="og:description" content="Python project pulling US unemployment and labor force participation data for every state from the FRED API and comparing them over time.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="band" aria-hidden="true"></div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="index.html">Sinenhlanhla Dlamini</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="projects.html" aria-current="page">Projects</a></li>
+        <li><a href="dashboards.html">Dashboards</a></li>
+        <li><a href="writing.html">Writing</a></li>
+        <li><a href="certificates.html">Certificates</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="about.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap wp">
+    <div class="crumb"><a href="projects.html">&larr; All projects</a></div>
+    <div class="page-head">
+      <h1>US economic data analysis with the FRED API</h1>
+      <p class="wp-meta">Python notebook &nbsp;|&nbsp; Data from the Federal Reserve Bank of St. Louis (FRED)</p>
+    </div>
+
+    <h2 style="margin-top: 8px;">The question</h2>
+    <p class="question">How did unemployment and labor force participation compare across US states, and how did they move together around 2020 to 2021?</p>
+    <ol class="pipeline" aria-label="Project data flow">
+      <li>FRED API</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li>State unemployment series (loop)</li>
+      <li class="sep" aria-hidden="true">+</li>
+      <li>State participation series</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li>One combined dataframe</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li class="out">State comparisons and charts</li>
+    </ol>
+
+    <h2>What I did</h2>
+    <ol class="steps">
+        <li><strong>Connected to the FRED API</strong> with the <code>fredapi</code> library and searched its catalog for economic series.</li>
+        <li><strong>Pulled the S&amp;P 500</strong> as a first time series and plotted it.</li>
+        <li><strong>Collected unemployment rates for every state</strong>: searched for the monthly, seasonally adjusted state series, looped over the series IDs, and combined them into one dataframe with the state names as columns.</li>
+        <li><strong>Pulled labor force participation rates</strong> for the states the same way.</li>
+        <li><strong>Compared unemployment and participation</strong> with a grid of charts for every state for 2020 to 2021, and a closer look at California.</li>
+    </ol>
+
+    <h2>Results</h2>
+    <ul class="keys">
+      <li><strong>August 2023 unemployment by state:</strong> Puerto Rico (about 6.2%), Nevada (about 5.4%), and the District of Columbia (about 5.0%) had the highest rates. Maryland, Vermont, and New Hampshire had the lowest, under 2%.</li>
+      <li><strong>California, 2020 to 2021:</strong> unemployment rose sharply in spring 2020 and then fell steadily, while labor force participation dipped and then recovered.</li>
+    </ul>
+    <figure class="fig"><img src="images/fred-unemployment-by-state.jpg" alt="Bar chart of unemployment rate by state, August 2023" loading="lazy"><figcaption>Unemployment rate by state, August 2023.</figcaption></figure>
+    <figure class="fig"><img src="images/fred-california.jpg" alt="California unemployment and participation, 2020 to 2021" loading="lazy"><figcaption>California: unemployment and labor force participation, 2020 to 2021.</figcaption></figure>
+    <figure class="fig"><img src="images/fred-sp500.jpg" alt="S&P 500 time series from FRED" loading="lazy"><figcaption>The S&P 500 series pulled from FRED.</figcaption></figure>
+
+    <h2>Tools</h2>
+    <ul class="tools" aria-label="Tools used"><li>Python</li><li>fredapi</li><li>pandas</li><li>Matplotlib</li><li>Plotly Express</li></ul>
+
+    <h2>Skills shown</h2>
+    <ul class="tools" aria-label="Skills shown"><li>API data collection</li><li>Looping and merging many data series</li><li>Filtering and cleaning with pandas</li><li>Time series plotting</li><li>Labor market analysis</li></ul>
+
+    <h2>Code preview</h2>
+    <p class="code-title">Pulling every state's unemployment series from FRED</p>
+    <pre class="code"><code>unemp_df = fred.search(&#x27;unemployment rate state&#x27;, filter=(&#x27;frequency&#x27;, &#x27;Monthly&#x27;))
+unemp_df = unemp_df.query(&#x27;seasonal_adjustment == &quot;Seasonally Adjusted&quot; and units == &quot;Percent&quot;&#x27;)
+
+all_results = []
+for myid in unemp_df.index:
+    results = fred.get_series(myid)
+    results = results.to_frame(name=myid)
+    all_results.append(results)
+    time.sleep(0.1)
+
+unemp_results = pd.concat(all_results, axis=1)</code></pre>
+    <p style="color: var(--muted); font-size: 0.95rem;">Excerpts from the original file, reformatted for readability. <a href="https://github.com/DlaminiSine/Sinenhlanhla_Portfolio/blob/main/US%20Economic%20Data%20Analysis.ipynb" target="_blank" rel="noopener">View the full notebook on GitHub</a>.</p>
+
+    <div class="wp-nav"><a href="projects.html">All projects</a><span></span></div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <ul class="foot-links">
+      <li><a href="mailto:dlamini.s@northeastern.edu">Email</a></li>
+      <li><a href="https://www.linkedin.com/in/sinenhlanhla-n-dlamini" target="_blank" rel="noopener">LinkedIn</a></li>
+      <li><a href="https://github.com/DlaminiSine" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="https://public.tableau.com/app/profile/sinenhlanhla.dlamini/vizzes" target="_blank" rel="noopener">Tableau Public</a></li>
+      <li><a href="resume.pdf">Resume (PDF)</a></li>
+    </ul>
+    Sinenhlanhla Dlamini, Boston, MA
+  </div>
+</footer>
+</body>
+</html>

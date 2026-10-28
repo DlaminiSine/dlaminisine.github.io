@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Solow growth model: simulating a savings-rate shock | Sinenhlanhla Dlamini</title>
+<meta name="description" content="Python simulation of the discrete-time Solow growth model showing how capital, output, and consumption per worker respond to a fall in the savings rate.">
+<meta property="og:title" content="The Solow growth model: simulating a savings-rate shock">
+<meta property="og:description" content="Python simulation of the discrete-time Solow growth model showing how capital, output, and consumption per worker respond to a fall in the savings rate.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="band" aria-hidden="true"></div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="index.html">Sinenhlanhla Dlamini</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="projects.html" aria-current="page">Projects</a></li>
+        <li><a href="dashboards.html">Dashboards</a></li>
+        <li><a href="writing.html">Writing</a></li>
+        <li><a href="certificates.html">Certificates</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="about.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap wp">
+    <div class="crumb"><a href="projects.html">&larr; All projects</a></div>
+    <div class="page-head">
+      <h1>The Solow growth model: simulating a savings-rate shock</h1>
+      <p class="wp-meta">Macroeconomic theory project &nbsp;|&nbsp; Python notebook</p>
+    </div>
+
+    <h2 style="margin-top: 8px;">The question</h2>
+    <p class="question">What happens to capital, output, and consumption per worker when an economy suddenly saves much less?</p>
+    <ol class="pipeline" aria-label="Project data flow">
+      <li>Model and parameters</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li>Steady state: 17.36 capital per worker</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li>Savings rate falls from 50% to 10%</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li>30-period simulation</li>
+      <li class="sep" aria-hidden="true">&rarr;</li>
+      <li class="out">Time paths and interpretation</li>
+    </ol>
+
+    <h2>What I did</h2>
+    <ol class="steps">
+        <li><strong>Set up the model</strong>: a discrete-time Solow model with a Cobb-Douglas production function written in per-worker terms, constant population growth, and no technological change.</li>
+        <li><strong>Calibrated the parameters</strong>: productivity of 1, five initial workers, capital share of 0.5, depreciation of 7%, population growth of 5%, and a 50% savings rate.</li>
+        <li><strong>Computed the steady state</strong> with the closed-form solution and wrote functions for the initial capital, output, and consumption values.</li>
+        <li><strong>Introduced a savings-rate shock</strong>: at period 3 the savings rate falls from 50% to 10%. I checked the law of motion by computing the first few periods by hand.</li>
+        <li><strong>Simulated 30 periods</strong> and plotted capital, output, and consumption per worker, plus log versions to show the transition clearly.</li>
+        <li><strong>Interpreted the results</strong> in economic terms, including what the trade-off means for a developing economy like the one I worked in as a banker.</li>
+    </ol>
+
+    <h2>Results</h2>
+    <ul class="keys">
+      <li>The steady state at a 50% savings rate is <strong>17.36 units of capital per worker</strong>. Initial aggregate capital is 86.81, output is 20.83, and consumption per worker is 2.08.</li>
+      <li>Capital stays at 17.36 until the shock, then falls to 15.77 in the first period after it.</li>
+      <li>Consumption per worker <strong>jumps from 2.08 to about 3.75</strong> when households stop saving, because output has not yet changed.</li>
+      <li>That boom does not last. By period 30, capital per worker has fallen to about 2.2, output per worker to about 1.5, and consumption per worker to about 1.3, which is below where it started.</li>
+    </ul>
+    <p>The core lesson is the savings-consumption trade-off: saving less gives a short-run consumption boost but permanently lowers long-run living standards, which matters for savings policy in developing economies.</p>
+    <figure class="fig"><img src="images/solow-time-paths.jpg" alt="Capital, output, and consumption per worker over 30 periods" loading="lazy"><figcaption>Capital, output, and consumption per worker over time. The dashed line marks the savings-rate shock at period 3.</figcaption></figure>
+    <div class="figs">
+    <figure class="fig"><img src="images/solow-log-capital.jpg" alt="Log of capital per worker over time" loading="lazy"><figcaption>Log of capital per worker</figcaption></figure>
+    <figure class="fig"><img src="images/solow-log-consumption.jpg" alt="Log of consumption per worker over time" loading="lazy"><figcaption>Log of consumption per worker</figcaption></figure>
+    </div>
+
+    <h2>Tools</h2>
+    <ul class="tools" aria-label="Tools used"><li>Python</li><li>NumPy</li><li>pandas</li><li>Matplotlib</li><li>Jupyter</li></ul>
+
+    <h2>Skills shown</h2>
+    <ul class="tools" aria-label="Skills shown"><li>Economic modeling</li><li>Numerical simulation</li><li>Model calibration</li><li>Writing reusable functions</li><li>Data visualization</li><li>Explaining results in plain language</li></ul>
+
+    <h2>Code preview</h2>
+    <p class="code-title">Steady state and the law of motion</p>
+    <pre class="code"><code>def steady_state_capital(sigma, A0, delta, n, theta):
+    &quot;&quot;&quot;Compute the steady state capital per worker.&quot;&quot;&quot;
+    return ((sigma * A0) / (n + delta))**(1 / (1 - theta))
+
+def next_k(k_t, sigma, A0, theta, delta, n):
+    &quot;&quot;&quot;Compute next period capital per worker using the law of motion.&quot;&quot;&quot;
+    return ((1 - delta) * k_t + sigma * A0 * k_t**theta) / (1 + n)</code></pre>
+    <p class="code-title">Simulating 30 periods with the savings-rate shock</p>
+    <pre class="code"><code>for t in range(T):
+    # Apply savings rate shock from period 3 onward
+    sigma_t = sigma_new if t &gt;= 3 else sigma_initial
+
+    y_t[t] = A0 * k_t[t]**theta
+    c_t[t] = (1 - sigma_t) * y_t[t]
+    k_t[t+1] = ((1 - delta) * k_t[t] + sigma_t * A0 * k_t[t]**theta) / (1 + n)</code></pre>
+    <p style="color: var(--muted); font-size: 0.95rem;">Excerpts from the original file, reformatted for readability. <a href="https://github.com/DlaminiSine/Sinenhlanhla_Portfolio/blob/main/Solow_Model_Portfolio.ipynb" target="_blank" rel="noopener">View the full notebook on GitHub</a>.</p>
+
+    <div class="wp-nav"><a href="projects.html">All projects</a><span></span></div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <ul class="foot-links">
+      <li><a href="mailto:dlamini.s@northeastern.edu">Email</a></li>
+      <li><a href="https://www.linkedin.com/in/sinenhlanhla-n-dlamini" target="_blank" rel="noopener">LinkedIn</a></li>
+      <li><a href="https://github.com/DlaminiSine" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="https://public.tableau.com/app/profile/sinenhlanhla.dlamini/vizzes" target="_blank" rel="noopener">Tableau Public</a></li>
+      <li><a href="resume.pdf">Resume (PDF)</a></li>
+    </ul>
+    Sinenhlanhla Dlamini, Boston, MA
+  </div>
+</footer>
+</body>
+</html>
